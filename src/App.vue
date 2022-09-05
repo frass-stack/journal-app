@@ -1,10 +1,8 @@
 <template>
-  <div>
     <router-view/>
     <button @click="goToDaybook" class="btn btn-primary">Primary</button>
     <button @click="goToDaybook" class="btn btn-secondary">Secundary</button>
     <button @click="goToDaybook" class="btn btn-success">Success</button>
-  </div>
 </template>
 
 <script>
