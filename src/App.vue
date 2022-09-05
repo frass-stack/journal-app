@@ -1,11 +1,21 @@
 <template>
   <div>
     <router-view/>
-    <button class="btn btn-primary">Primary</button>
-    <button class="btn btn-secondary">Secundary</button>
-    <button class="btn btn-success">Success</button>
+    <button @click="goToDaybook" class="btn btn-primary">Primary</button>
+    <button @click="goToDaybook" class="btn btn-secondary">Secundary</button>
+    <button @click="goToDaybook" class="btn btn-success">Success</button>
   </div>
 </template>
+
+<script>
+  export default{
+    methods:{
+      goToDaybook(){
+        this.$router.push( {name:'daybook'} );
+      }
+    }
+  }
+</script>
 
 <style>
 #app {
