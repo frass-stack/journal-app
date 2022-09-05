@@ -1,5 +1,10 @@
 <template>
-  <router-view/>
+  <div>
+    <router-view/>
+    <button class="btn btn-primary">Primary</button>
+    <button class="btn btn-secondary">Secundary</button>
+    <button class="btn btn-success">Success</button>
+  </div>
 </template>
 
 <style>
