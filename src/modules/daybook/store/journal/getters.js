@@ -15,5 +15,5 @@ export const getEntryById = ( state ) => ( id = '' ) => {
 
     if( !entry ) return
 
-    return entry;
+    return {...entry};
 }
