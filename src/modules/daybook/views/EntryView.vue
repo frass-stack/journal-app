@@ -29,9 +29,37 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
 export default {
+    props:{
+        id:{
+            type:String,
+            required:true
+        }
+    },
+    data(){
+        return {
+            entry: null
+        }
+    },
     components:{
         Fab: defineAsyncComponent( ()=> import('@/modules/daybook/components/Fab.vue') )
+    },
+    computed:{
+        ...mapGetters('journal', ['getEntryById'])
+    },
+    methods:{
+        loadEntry(){
+            const entry = this.getEntryById(this.id);
+            //console.log(entry)
+            if( !entry ) this.$router.push({ name: 'no-entry' })
+
+            this.entry = entry
+        }
+    },
+    created(){
+        console.log(this.$route.params.id)
+        this.loadEntry()
     }
 }
 </script>
