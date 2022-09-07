@@ -21,7 +21,7 @@
         <div class="d-flex flex-column px-3 h-75">
           <textarea v-model="entry.text" >¿Cual es la historia de hoy?</textarea>
         </div>
-        <Fab icon="fa-save"/>
+        <Fab @on:click="saveEntry" icon="fa-save"/>
         <img 
           src="https://i0.wp.com/lamazmorradelfriki.com/wp-content/uploads/2022/07/Galadriel-and-Elrond-in-The-Rings-of-Power.jpg?resize=780%2C470&ssl=1" 
           alt="entry-picture"
@@ -72,6 +72,9 @@ export default {
             if( !entry ) return this.$router.push({ name: 'no-entry' })
 
             this.entry = entry
+        },
+        async saveEntry(){
+            console.log('Guardando entrada')
         }
     },
     created(){
