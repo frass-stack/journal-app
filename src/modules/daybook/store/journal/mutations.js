@@ -4,8 +4,11 @@
 
 // }
 
-export const setEntries = ( state ) => {
+export const setEntries = ( state, entries ) => {
 
+    //Valor actual y nuevos valores de entradas
+    state.entries = [...state.entries, ...entries]
+    state.isLoading = false
 }
 
 export const updateEntries = ( state ) => {
