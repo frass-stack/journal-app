@@ -7,7 +7,7 @@
               <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
           </div>
           <div>
-              <input type="file" @change="onSelectedFile" />
+              <input type="file" @change="onSelectedFile" ref="selectorImage" v-show="false" accept="image/png, image/jpeg"/>
               <button 
                 v-if="entry.id" 
                 @click="onToDelete"
@@ -15,7 +15,7 @@
                   Borrar
                   <i class="fa fa-trash-alt"></i>
               </button>
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" @click="onSelectedImage">
                   Subir Foto
                   <i class="fa fa-upload"></i>
               </button>
@@ -26,10 +26,10 @@
           <textarea v-model="entry.text" >¿Cual es la historia de hoy?</textarea>
         </div>
         <Fab @on:click="saveEntry" icon="fa-save"/>
-        <img 
+        <!-- <img 
           src="https://i0.wp.com/lamazmorradelfriki.com/wp-content/uploads/2022/07/Galadriel-and-Elrond-in-The-Rings-of-Power.jpg?resize=780%2C470&ssl=1" 
           alt="entry-picture"
-          class="img-thumbnail">
+          class="img-thumbnail"> -->
         <img 
         v-if="localImage"
         :src="localImage" 
@@ -149,6 +149,9 @@ export default {
             const fr = new FileReader()
             fr.onload = () => this.localImage = fr.result
             fr.readAsDataURL( file )
+        },
+        onSelectedImage(){
+            this.$refs.selectorImage.click()
         }
     },
     created(){
