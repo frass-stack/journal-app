@@ -19,6 +19,11 @@ export const updateEntry = ( state, entry ) => {
     state.entries[idx] = entry
 }
 
-export const addEntries = ( state ) => {
+export const addEntry = ( state, entry ) => {
     //state -> entries -> la nueva entrada debe ser la primera en el orden
+    state.entries = [entry, ...state.entries]
+}
+
+export const deleteEntryById = ( state, id ) => {
+    state.entries = state.entries.filter( entry => entry.id !== id )
 }

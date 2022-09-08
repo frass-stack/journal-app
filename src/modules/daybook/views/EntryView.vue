@@ -7,7 +7,10 @@
               <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
           </div>
           <div>
-              <button class="btn btn-danger mx-2">
+              <button 
+                v-if="entry.id" 
+                @click="onToDelete"
+                class="btn btn-danger mx-2">
                   Borrar
                   <i class="fa fa-trash-alt"></i>
               </button>
@@ -66,7 +69,7 @@ export default {
         }
     },
     methods:{
-        ...mapActions('journal', ['updateEntry']),
+        ...mapActions('journal', ['updateEntry', 'createEntry', 'deleteEntry']),
         loadEntry(){
             let entry;
             if( this.id === 'new'){
@@ -87,16 +90,20 @@ export default {
                 this.updateEntry( this.entry )
             }else{
                 //Crear una nueva entrada
-                console.log('creando nueva entrada.')
+                //console.log('creando nueva entrada.')
+                //Obtenemos el id para redireccionar a la nueva entrada.
+                const id = await this.createEntry( this.entry )
+                this.$router.push({ name:'entry', params:{ id }})
             }
-
-            //await action
-
-            //redirect to -> entry, param:id
+        },
+        async onToDelete(){
+            //console.log('Borrando', this.entry)
+            await this.deleteEntry(this.entry.id)
+            this.$router.push({ name:'no-entry' })
         }
     },
     created(){
-        console.log(this.$route.params.id)
+        //console.log(this.$route.params.id)
         this.loadEntry()
     },
     watch:{

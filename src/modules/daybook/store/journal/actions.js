@@ -8,6 +8,12 @@ import journalApi from "@/api/journalApi"
 
 export const loadEntries = async ({ commit }) => {
     const { data } = await journalApi.get('/entries.json')
+
+    if( !data ){
+        commit('setEntries', [])
+        return
+    }
+
     //console.log(data)
     //Firebase nos esta devolviendo un objeto y lo transformamos en un array.
     const entries = []
@@ -28,19 +34,25 @@ export const updateEntry = async ({ commit }, entry) => {//Entry debe ser un par
     const { text, date, picture } = entry
     const saveEntry = { text, date, picture }
     const resp = await journalApi.put(`/entries/${ entry.id }.json`, saveEntry)
-    console.log( resp )
+    //console.log( resp )
     //Commit mutation
     commit('updateEntry', {...entry})
 }
 
-export const createEntry = async ({ commit }) => {
+export const createEntry = async ({ commit }, entry) => {
     //dataToSave
-
-    //const { data } = await journalApi.post(`/entries.json`, dataToSave)
-
-    //data = { 'name': 'kakaka' }
-
+    const { text, date, picture } = entry
+    const dataToSave = { text, date, picture }
+    const { data } = await journalApi.post(`/entries.json`, dataToSave)
+    //data = { 'name': 'kakaka' } - guardamos la id que se genera en la dataToSave
+    dataToSave.id = data.name
     //commit-> addEntry
+    commit('addEntry', dataToSave)
+    return data.name 
+}
 
-    // return data.name 
+export const deleteEntry = async ({ commit }, id) => {
+    await journalApi.delete(`/entries/${ id }.json`)
+    commit('deleteEntryById', id)
+    return id
 }
