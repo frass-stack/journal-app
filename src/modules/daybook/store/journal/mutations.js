@@ -11,8 +11,12 @@ export const setEntries = ( state, entries ) => {
     state.isLoading = false
 }
 
-export const updateEntries = ( state ) => {
-
+export const updateEntry = ( state, entry ) => {
+    //State.entries => arrreglo
+    const idx = state.entries.map(entry => entry.id).indexOf(entry.id)
+    console.log(idx)
+    //State.entries = ...entry
+    state.entries[idx] = entry
 }
 
 export const addEntries = ( state ) => {
