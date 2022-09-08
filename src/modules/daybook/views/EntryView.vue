@@ -26,10 +26,11 @@
           <textarea v-model="entry.text" >¿Cual es la historia de hoy?</textarea>
         </div>
         <Fab @on:click="saveEntry" icon="fa-save"/>
-        <!-- <img 
-          src="https://i0.wp.com/lamazmorradelfriki.com/wp-content/uploads/2022/07/Galadriel-and-Elrond-in-The-Rings-of-Power.jpg?resize=780%2C470&ssl=1" 
+        <img
+          v-if="entry.picture && !localImage" 
+          :src="entry-picture" 
           alt="entry-picture"
-          class="img-thumbnail"> -->
+          class="img-thumbnail">
         <img 
         v-if="localImage"
         :src="localImage" 
@@ -42,6 +43,7 @@
 import { defineAsyncComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import Swal from 'sweetalert2'
+import uploadImage from '@/modules/daybook/helpers/uploadImage'
 
 import getDayMonthYear from '@/modules/daybook/helpers/getDayMonthYear'
 
@@ -101,6 +103,12 @@ export default {
 
             Swal.showLoading()
 
+            //Obtenemos la imagen que deseamos cargar.
+            const picture = await uploadImage( this.file )
+
+            //Cargamos la imagen en la entrada.
+            this.entry.picture = picture
+
             //console.log('Guardando entrada')
             if( this.entry.id ){
                 this.updateEntry( this.entry )
@@ -111,7 +119,7 @@ export default {
                 const id = await this.createEntry( this.entry )
                 this.$router.push({ name:'entry', params:{ id }})
             }
-
+            this.file = null
             Swal.fire('Guardado', 'Entrada registrada con exito', 'success')
         },
         async onToDelete(){
