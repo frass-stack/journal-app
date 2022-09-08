@@ -7,6 +7,7 @@
               <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
           </div>
           <div>
+              <input type="file" @change="onSelectedFile" />
               <button 
                 v-if="entry.id" 
                 @click="onToDelete"
@@ -29,6 +30,11 @@
           src="https://i0.wp.com/lamazmorradelfriki.com/wp-content/uploads/2022/07/Galadriel-and-Elrond-in-The-Rings-of-Power.jpg?resize=780%2C470&ssl=1" 
           alt="entry-picture"
           class="img-thumbnail">
+        <img 
+        v-if="localImage"
+        :src="localImage" 
+        alt="entry-picture"
+        class="img-thumbnail">
     </template>
 </template>
 
@@ -48,7 +54,9 @@ export default {
     },
     data(){
         return {
-            entry: null
+            entry: null,
+            localImage: null,
+            file: null
         }
     },
     components:{
@@ -127,6 +135,20 @@ export default {
 
                 Swal.fire('Eliminado', '', 'success')
             }
+        },
+        onSelectedFile( event ){
+            const file = event.target.files[0]
+            if( !file ){
+                this.localImage = null
+                this.file = null
+                return
+            }
+
+            this.file = file
+
+            const fr = new FileReader()
+            fr.onload = () => this.localImage = fr.result
+            fr.readAsDataURL( file )
         }
     },
     created(){
