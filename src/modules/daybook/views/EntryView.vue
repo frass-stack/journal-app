@@ -68,16 +68,31 @@ export default {
     methods:{
         ...mapActions('journal', ['updateEntry']),
         loadEntry(){
-            const entry = this.getEntryById(this.id);
-            //console.log(entry)
-            if( !entry ) return this.$router.push({ name: 'no-entry' })
-
+            let entry;
+            if( this.id === 'new'){
+                entry = {
+                    text:'',
+                    date: new Date().getTime()
+                }
+            }else{
+                entry = this.getEntryById(this.id);
+                //console.log(entry)
+                if( !entry ) return this.$router.push({ name: 'no-entry' })
+            }
             this.entry = entry
         },
         async saveEntry(){
-            console.log('Guardando entrada')
+            //console.log('Guardando entrada')
+            if( this.entry.id ){
+                this.updateEntry( this.entry )
+            }else{
+                //Crear una nueva entrada
+                console.log('creando nueva entrada.')
+            }
 
-            this.updateEntry( this.entry )
+            //await action
+
+            //redirect to -> entry, param:id
         }
     },
     created(){

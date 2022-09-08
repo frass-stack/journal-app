@@ -33,6 +33,14 @@ export const updateEntry = async ({ commit }, entry) => {//Entry debe ser un par
     commit('updateEntry', {...entry})
 }
 
-export const createEntries = async ({ commit }) => {
+export const createEntry = async ({ commit }) => {
+    //dataToSave
 
+    //const { data } = await journalApi.post(`/entries.json`, dataToSave)
+
+    //data = { 'name': 'kakaka' }
+
+    //commit-> addEntry
+
+    // return data.name 
 }

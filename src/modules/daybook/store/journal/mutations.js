@@ -20,5 +20,5 @@ export const updateEntry = ( state, entry ) => {
 }
 
 export const addEntries = ( state ) => {
-
+    //state -> entries -> la nueva entrada debe ser la primera en el orden
 }
