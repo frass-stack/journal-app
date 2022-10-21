@@ -23,14 +23,23 @@ const useAuth = () => {
         return resp
     }
 
+    //No hace falta que logout sea async
+    const logout = () => {
+        store.commit('auth/logout')
+        //Limpiamos las entradas
+        store.commit('journal/clearEntries')
+    }
+
     return{
         //Actions
         createUser,
         loginUser,
         checkAuthStatus,
+        logout,
 
         //Getters
-        authCheckStatus: computed( () => store.getters['auth/currentStatus'] )
+        authCheckStatus: computed( () => store.getters['auth/currentStatus'] ),
+        username: computed( () => store.getters['auth/username'] )
     }
 }
 
