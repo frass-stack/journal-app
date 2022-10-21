@@ -8,7 +8,7 @@ export const createUser = async ({ commit }, user) => {
         // console.log(data)
         const { idToken, refreshToken } = data
         
-        await authApi.post(':update',{ displayName: name, idToken })
+        await authApi.post(':update',{ displayName: name, idToken, refreshToken })
         // console.log(resp)
 
         //Como el password no esta encriptado sera visible su lectura, por lo tanto no lo necesito en este punto.
@@ -26,7 +26,10 @@ export const signInUser = async ({ commit }, user) => {
 
     try {
         const { data } = await authApi.post(':signInWithPassword',{ email, password, returnSecureToken:true })
-        const { idToken, refreshToken } = data
+        const { displayName, idToken, refreshToken } = data
+
+        //Grabamos el nombre desde el displayName
+        user.name = displayName
 
         commit('loginUser', { user, idToken, refreshToken })
 
