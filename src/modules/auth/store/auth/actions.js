@@ -39,3 +39,35 @@ export const signInUser = async ({ commit }, user) => {
         return {ok:false, message:error.response.data.error.message}
     }
 }
+
+export const checkAuthentication = async ({commit}) => {
+    const idToken = localStorage.getItem('idToken')
+    const refreshToken = localStorage.getItem('refreshToken')
+
+    //Si no existe el idToken, reseteamos el state y salimos.
+    if(!idToken){
+        commit('logout')
+        return {ok:false, message:'No hay token'}
+    }
+
+    try {
+        //Leemos el idToken para verificar que user es, debiendo ser el primero el que es de nuestro interes.
+        const { data } = await authApi.post(':lookup', { idToken })
+        console.log(data)
+        const { displayName:name, email } = data.users[0]
+
+        //Creamos la data para enviarla al mutation loginUser y reestablecer el store.state.
+        const user = {
+            name,
+            email
+        }
+
+        commit('loginUser', { user, idToken, refreshToken })
+
+        return {ok:true}
+        
+    } catch (error) {
+        commit('logout')
+        return {ok:false, message:error.response.data.error.message}
+    }
+}

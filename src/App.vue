@@ -1,15 +1,18 @@
 <template>
-      <router-view/>
-      <button @click="goToDaybook" class="btn btn-primary">Primary</button>
-      <button @click="goToDaybook" class="btn btn-secondary">Secundary</button>
-      <button @click="goToDaybook" class="btn btn-success">Success</button>
+      <h1 v-if="authCheckStatus === 'authenticating'">{{authCheckStatus}}</h1>
+      <router-view v-else />
 </template>
 
 <script>
+import useAuth from './modules/auth/composables/useAuth'
   export default{
-    methods:{
-      goToDaybook(){
-        this.$router.push( {name:'no-entry'} );
+    setup(){
+      const { authCheckStatus, checkAuthStatus } = useAuth()
+      //Cuando el componente empieza a crearse.
+      checkAuthStatus()
+
+      return {
+        authCheckStatus
       }
     }
   }
