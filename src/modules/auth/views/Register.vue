@@ -59,7 +59,8 @@ export default {
             onSubmit: async () => {
                 // console.log(userForm.value)
                 const {ok, message } = await createUser(userForm.value)
-
+                
+                //Mensaje de error o redireccion a dayBook
                 if(!ok) Swal.fire('Error', message, 'error')
                 else router.push({ name:'no-entry' })
             }
